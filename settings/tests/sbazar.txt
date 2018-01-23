@@ -1,0 +1,75 @@
+# testy HTTP kódů
+http://www.sbazar.cz/
+301
+http://sbazar.cz/
+301
+https://www.sbazar.cz/ciciolina.sicher/detail/533793-renault-trafic/
+301
+https://www.sbazar.cz/blbina
+404
+https://www.sbazar.cz/kamos/detail/2576372-stary-inzerat
+410
+https://www.sbazar.cz/hledej/kolobrnda
+404
+
+# testy HTML prvků typových stránek
+https://www.sbazar.cz/
+200
+#test title
+plaintext;;//title;;0;;Bazar a inzerce zdarma - Sbazar.cz
+# test meta description
+content;;meta[name="description"];;0;;Sbazar.cz – internetový bazar a inzertní portál, kam zadáváte inzeráty zdarma. Prodejte nebo kupte použité zboží za výhodnou cenu.
+# test, že neexistuje meta description
+content;;meta[name="robots"];;0;;
+# test odkazu na stránkování
+href;;#nextMrEggsLoader;;0;;/0-vsechny-kategorie/cela-cr/nejnovejsi/2
+# test link next (tady zrovna testuju, že na webu není, ale jinak by tam byla URL)
+href;;link[rel="next"];;0;;
+# test link prev (tady zrovna testuju, že na webu není, ale jinak by tam byla URL)
+href;;link[rel="prev"];;0;;
+# test link canonical (tady zrovna testuju, že na webu není, ale jinak by tam byla URL)
+href;;link[rel="canonical"];;0;;
+
+https://www.sbazar.cz/1-auto-moto
+200
+plaintext;;h1 > a;;0;;Auto-moto
+plaintext;;//title;;0;;Auto moto bazar - Sbazar.cz
+content;;meta[name="robots"];;0;;
+content;;meta[name="description"];;0;;Z aktuální nabídky inzerátů v kategorii Auto moto bazar na Sbazar.cz si jistě vyberete. Sbazar.cz - český internetový bazar od Seznamu.
+
+https://www.sbazar.cz/1-auto-moto/praha
+200
+plaintext;;h1 > a;;0;;Auto-moto
+plaintext;;#localityNameDesktop;;0;;Praha
+plaintext;;//title;;0;;Auto moto bazar v Praze - Sbazar.cz
+content;;meta[name="robots"];;0;;
+content;;meta[name="description"];;0;;Z aktuální nabídky inzerátů v kategorii Auto moto bazar v Praze na Sbazar.cz si jistě vyberete. Sbazar.cz - český internetový bazar od Seznamu.
+
+https://www.sbazar.cz/ciciolina.sicher/detail/533793-renault-trafic
+200
+plaintext;;h1;;0;;Renault Trafic.
+plaintext;;//title;;0;;Renault Trafic. - Sbazar.cz
+content;;meta[name="robots"];;0;;
+content;;meta[name="description"];;0;;Inzerát Renault Trafic. v okrese Praha-východ, cena 0 Kč, od ciciolina.sicher na Sbazar.cz
+
+https://www.sbazar.cz/hledej/kolob%C4%9B%C5%BEka
+200
+plaintext;;#subCategoriesFilter > div > ul > li > a;;0;;Vše &bdquo;koloběžka&rdquo;
+plaintext;;//title;;0;;Inzeráty koloběžka - Bazar a inzerce zdarma - Sbazar.cz
+content;;meta[name="robots"];;0;;
+content;;meta[name="description"];;0;;Inzeráty koloběžka - aktuální inzeráty na Sbazar.cz - českém internetovém bazaru od Seznamu.
+
+https://www.sbazar.cz/ciciolina.sicher
+200
+plaintext;;h2;;0;;Inzeráty, které nabízí ciciolina.sicher
+plaintext;;//title;;0;;Bazar ciciolina.sicher - Sbazar.cz
+content;;meta[name="robots"];;0;;
+content;;meta[name="description"];;0;;Z nabídky aktuálních inzerátů v bazaru ciciolina.sicher si jistě vyberete. Sbazar.cz - český internetový bazar.
+plaintext;;//title;;0;;Schválně udělaná chyba.
+
+
+# test viewport
+#content;;meta[name="viewport"];;0;;width=device-width, initial-scale=1.0, maximum-scale=1.0
+
+# test prvku v HTML
+#plaintext;;#box8 > div > div > ul > li;;2;;obsah HTML prvku
