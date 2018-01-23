@@ -16,5 +16,16 @@ Tak se můžete spolehnout na to, že vám pod rukama nikdo nemění technické 
 Testy dělejte na produkci, ale naučte své programátory, aby před každým releasem test spustili na testovacím prostředí. Zachytíte tak chyby, které mohou na webu znamenat problémy.
 
 
+# Instalace Linux
+Požadavky:
+* běžící Linux server s PHP a Cron
+
+## Jak na to?
+* Stáhněte si ZIP - vpravo nahoře
+* nainstalujte, kam jste zvyklí
+* do cron si přidejte spouštění skriptu, např. 0,20,40 * * * * root php /var/lib/seo-robot/index.php >> /dev/null
+
+# Nastavení
+TBD
 
 
