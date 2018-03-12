@@ -23,7 +23,7 @@ Požadavky:
 ## Jak na to?
 * Stáhněte si ZIP - vpravo nahoře
 * nainstalujte, kam jste zvyklí
-* do cron si přidejte spouštění skriptu, např. 0,20,40 * * * * root php /var/lib/seo-robot/index.php >> /dev/null
+* do cron si přidejte spouštění skriptu, např. 0,20,40 * * * * root curl http://web-kde-je-sep-robot-nainstalovany.cz/index.php?id=sbazar.cz >> /dev/null 2>&1
 
 # Nastavení
 TBD
