@@ -136,29 +136,29 @@ if($hasError === TRUE) {
   if ( array_key_exists( 'emailUsername', $generalSettings ) && array_key_exists( 'emailPassword', $generalSettings)
   && array_key_exists( 'email', $settings)) {
 
-      $mail = new PHPMailer;
-      $mail->CharSet = "UTF-8";
-      $mail->isSMTP();
-      $mail->SMTPDebug = 0; // 0
-      $mail->Host = $generalSettings['emailHost'];
-      $mail->Port = $generalSettings['emailPort'];
-      $mail->SMTPSecure = $generalSettings['emailSMTPSecure'];
-      $mail->SMTPAuth = $generalSettings['emailSMTPAuth'];
-      $mail->Username = $generalSettings['emailUsername'];
-      $mail->Password = $generalSettings['emailPassword'];
-      $mail->setFrom($generalSettings['emailUsername']);
-      $mail->addReplyTo($generalSettings['emailUsername']);
-      $mail->addAddress($settings['email']);
-      $mail->Subject = 'SEO test se nezdařil - '. $testid;
-      $mail->msgHTML($log);
-      $mail->AltBody = strip_tags($log);
-      $mail->smtpConnect([
-          'ssl' => [
-              'verify_peer' => false,
-              'verify_peer_name' => false,
-              'allow_self_signed' => true
-          ]
-      ]);
+			$mail = new PHPMailer;
+			$mail->CharSet = "UTF-8";
+			$mail->isSMTP();
+			$mail->SMTPDebug = $generalSettings['smtpDebugLevel']; // 0
+			$mail->Host = $generalSettings['emailHost'];
+			$mail->Port = $generalSettings['emailPort'];
+			$mail->SMTPSecure = $generalSettings['emailSMTPSecure'];
+			$mail->SMTPAuth = $generalSettings['emailSMTPAuth'];
+			$mail->Username = $generalSettings['emailUsername'];
+			$mail->Password = $generalSettings['emailPassword'];
+			$mail->setFrom($generalSettings['emailFrom']);
+			$mail->addReplyTo($generalSettings['emailFrom']);
+			$mail->addAddress($settings['email']);
+			$mail->Subject = 'SEO test se nezdařil - '. $testid;
+			$mail->msgHTML($log);
+			$mail->AltBody = strip_tags($log);
+			$mail->smtpConnect([
+					'ssl' => [
+							'verify_peer' => false,
+							'verify_peer_name' => false,
+							'allow_self_signed' => true
+					]
+			]);
       //send the message, check for errors
       if (!$mail->send()) {
           echo "Chyba - email nebyl poslán: " . $mail->ErrorInfo;

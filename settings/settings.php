@@ -7,7 +7,7 @@ $testsSettings = array(
 						'robotsTxtURL' => 'https://www.sbazar.cz/robots.txt',
 				'testRules' => './settings/tests/sbazar.txt',
 				'curl_useragent' => 'SEO test',
-				'email' => 'jaroslav.hlavinka@firma.seznam.cz',
+				'email' => 'email-kam-poslat-report@seznam.cz',
 		 ),
 
 	// same test as previous, but with different useragent for testing "hacks for googlebot mobile"
@@ -33,7 +33,7 @@ $testsSettings = array(
 */
 
 $generalSettings = array(
-				'curl_useragent' => 'SEO testing robot - made with love by Jaroslav Hlavinka jaroslav@hlavinka.cz',
+				'curl_useragent' => 'SEO testing robot - made with ♥ by Jaroslav Hlavinka jaroslav@hlavinka.cz',
 				'debug' => TRUE,
 				'emailHost' => 'smtp.gmail.com',
 				'emailPort' => 587,
@@ -41,6 +41,8 @@ $generalSettings = array(
 				'emailSMTPAuth' => true,
 				'emailUsername' => 'email@gmail.com',
 				'emailPassword' => 'heslodoemailu',
+				'emailFrom' => 'vrazda-smrt-zabiti@seorobot.dev',
+				'smtpDebugLevel' => 0, // 2 or 4 when debugging
 			);
 $log = '';
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
