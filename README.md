@@ -110,54 +110,34 @@ U každé URL může být 0 až X testů. Každý na vlastním řádku. Můžete
 
 Definice SEO testů se oddělují dvěma středníky ;; a mají přesný zápis, který je potřeba dodržet:
 1. **první parametr** říká, co se má vytáhnout z následujícího pravidla. Tady jsou pevně dané možnosti:
-* **plaintext** - vybere jen text elementů bez HTML tagů 
-* **content** - vybere obsah meta tagů
-* **href** - vybere obsah atributu href například v odkazech, nebo rel canonical
+    * **plaintext** - vybere jen text elementů bez HTML tagů 
+    * **content** - vybere obsah meta tagů
+    * **href** - vybere obsah atributu href například v odkazech, nebo rel canonical
 2. **druhý parametr** je XPath cesta k elementu, který se má otestovat
 3. **pořadí elementu vybraného v XPath** - vámi vybraný element bude asi nejčastěji 0 (první v pořadí)
 4. **hodnota**, kterou očekáváte a má se otestovat
 
 Příklady:
 1. v TITLE je přesně toto: "Renault Trafic. - Sbazar.cz":
-
-```plaintext;;//title;;0;;Renault Trafic. - Sbazar.cz```
-
+    * ```plaintext;;//title;;0;;Renault Trafic. - Sbazar.cz```
 2. v META description je "Inzerát Renault Trafic. v okrese Praha-východ, cena 0 Kč, od ciciolina.sicher na Sbazar.cz":
-
-```content;;meta[name="description"];;0;;Inzerát Renault Trafic. v okrese Praha-východ, cena 0 Kč, od ciciolina.sicher na Sbazar.cz```
-
+    * ```content;;meta[name="description"];;0;;Inzerát Renault Trafic. v okrese Praha-východ, cena 0 Kč, od ciciolina.sicher na Sbazar.cz```
 3. v META robots je "noindex,nofollow"
-
-```content;;meta[name="robots"];;0;;noindex,nofollow```
-
+    * ```content;;meta[name="robots"];;0;;noindex,nofollow```
 4. META robots je prázdný, nebo na stránce vůbec není
-
-```content;;meta[name="robots"];;0;;```
-
+    * ```content;;meta[name="robots"];;0;;```
 5. REL canonical je přesně: "https://www.sbazar.cz"
-
-```href;;link[rel="canonical"];;0;;https://www.sbazar.cz```
-
+    * ```href;;link[rel="canonical"];;0;;https://www.sbazar.cz```
 6. REL next je: "https://www.sbazar.cz"
-
-```href;;link[rel="next"];;0;;https://www.sbazar.cz```
-
+    * ```href;;link[rel="next"];;0;;https://www.sbazar.cz```
 7. REL prev je: "https://www.sbazar.cz/3"
-
-```href;;link[rel="prev"];;0;;https://www.sbazar.cz/3```
-
+    * ```href;;link[rel="prev"];;0;;https://www.sbazar.cz/3```
 8. H1 je "Renault Trafic"
-
-```plaintext;;h1;;0;;Renault Trafic.```
-
-9. V 3. tagu LI v XPath "#box8 > div > div > ul > li" je "něco"
-    
-```plaintext;;#box8 > div > div > ul > li;;2;;něco```
-
+    * ```plaintext;;h1;;0;;Renault Trafic.```
+9. V 3. tagu LI v XPath "#box8 > div > div > ul > li" je "něco"    
+    * ```plaintext;;#box8 > div > div > ul > li;;2;;něco```
 10. V tagu s ID "localityNameDesktop" je "Praha" 
-
-```plaintext;;#localityNameDesktop;;0;;Praha```
-
+    * ```plaintext;;#localityNameDesktop;;0;;Praha```
 
 
 **Tip:** pro první spuštění si udělejte v testech záměrnou chybu, aby se email poslal a vy ho viděli
