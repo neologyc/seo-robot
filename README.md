@@ -13,6 +13,7 @@ SEO robot projde web a otestuje vše, co mu zadáte a když narazí na chybu, ta
 
 Tak se můžete spolehnout na to, že vám pod rukama nikdo nemění technické SEO a obsah stránek.
 
+
 ## Jak správně nastavit proces testování SEO?
 ### Testy v testovacím prostředí
 Už teď pravděpodobně testujete web předtím, než nasadíte novou verzi do provozu. Testujete, jestli fungují všechny stránky, stavy aplikace, formuláře, emaily, jestli web vypadá dobře i v IE, atd. Na SEO se většinou nemyslí a netestuje se, jestli se při úpravách neudělala chyba, která rozbije už hotové technické nastavení SEO.
@@ -23,12 +24,15 @@ SEO robot může běžet na testovacím prostředí a před nasazením jen ručn
 
 Odhalení chyby na testu je výrazně lepší, než chybu najít až po nasazení v provozu.
 
+
 ### Testy v produkčním prodstředí
 Druhý typ testů v produkci je průběžný a spouští se automaticky Cronem každý den (v Seznamu to mám nastaveno každý den co 20 minut). Tím  se nejpozději do 20 minut po změné na webu dozvím, že se změnilo něco, co může ovlivnit SEO. To je relativně hodně rychlé a snižuje to pŕípadné problémy.
+
 
 # Instalace
 ## Požadavky na prostředí:
 * Linux server s PHP a Cron (třeba VPS)
+
 
 ## Jednoduchá instalace pro začátečníky:
 * Stáhněte .ZIP - vpravo nahoře
@@ -36,8 +40,10 @@ Druhý typ testů v produkci je průběžný a spouští se automaticky Cronem k
 * Nastavte SEO robota tak, aby byl dostupný na URL dostupné z Cron - může být i veřejně dostupný, ale pak je lepší nastavit přístup jen z Cron a z vašich IP, aby se tam nedostal někdo, kdo tam nemá co dělat :) 
 * Nastavte práva k souborům (chmod)
 
+
 ## Instalace pro profíky
 * programátoři, webaři a jiní profíci, vy ode mne návod k instalaci nepotřebujete ;-)
+
 
 # Nastavení
 ## 1. Nastavení emailů a SMTP 
@@ -55,7 +61,9 @@ Příklad nastavení pro Gmail (to je takové nejvíce specifické):
 ```
 ! Pro odesílání emailů je nejlepší vytvořit si úplně nový email na Seznamu, nebo Gmailu. 
 
+
 ## 2. Nastavení SEO testů
+
 
 ### 2.1 Založení nového projektu
 Nový projekt vytvoříte v **/settings/settings.php v poli $testsSettings**.
@@ -78,6 +86,7 @@ Detailně vysvětleno:
 4. **cesta k robots.txt uloženému lokálně** - pro ověření, jestli se robots.txt na serveru nezměnil. Při tvorbě testu stáhněte soubor robots.txt z webu a uložte ho SEO robotovi do adresáře /settings/robots.txt/
 5. **user-agent** - toho můžete měnit a monitorovat případné specifické chování pro jiné useragenty -Facebot, GoogleBot mobile, SeznamBot, atd. Pro test s jiným user-agentem si založte nový projekt 
 6. **adresát** - komu se pošle email v případě chyby v testech
+
 
 ### 2.2 Založení SEO testů
 SEO testy se zapisují jednoduše do textového souboru a SEO robot je čte řádek po řádku.
@@ -104,6 +113,7 @@ https://www.zbozi.cz/iphone
 200
 
 ```
+
 
 #### 2.2.1 definice SEO testů
 U každé URL může být 0 až X testů. Každý na vlastním řádku. Můžete tak pro jednu URL otestovat zároveň titulek, meta description a obsah stránky. Ale také nemusíte uvést žádný SEO test - například, když chcete změřit přesměrování a HTTP chyby 4XX a 5XX.
@@ -141,6 +151,7 @@ Příklady:
 
 
 **Tip:** pro první spuštění si udělejte v testech záměrnou chybu, aby se email poslal a vy ho viděli
+
 
 ### 2.3 Spouštění testů
 Každá ze služeb se spouští zvláště. Nejsou nijak zřetězeny.
