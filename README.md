@@ -150,7 +150,7 @@ Příklady:
 
 ```plaintext;;h1;;0;;Renault Trafic.```
 
-9. V 3. <li> v XPath "#box8 > div > div > ul > li" je "něco"
+9. V 3. tagu LI v XPath "#box8 > div > div > ul > li" je "něco"
     
 ```plaintext;;#box8 > div > div > ul > li;;2;;něco```
 
