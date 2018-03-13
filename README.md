@@ -55,32 +55,89 @@ Příklad nastavení pro Gmail (to je takové nejvíce specifické):
 ```
 ! Pro odesílání emailů je nejlepší vytvořit si úplně nový email na Seznamu, nebo Gmailu. 
 
-## 2. Vytvoření nového testu
+## 2. Nastavení SEO testů
 
 ### 2.1 Založení nového projektu
-Nový test vytvoříte v **/settings/settings.php v poli $testsSettings**.
+Nový projekt vytvoříte v **/settings/settings.php v poli $testsSettings**.
 Stačí přidat nové pole s názvem služby do pole $testsSettings. Název služby je důležitý - podle něj budete pak test spouštět.
 
 ```
-'sbazar.cz' => // ID projektu
+'sbazar.cz' => // 1. ID projektu
     array( 	
-        'robotsTxtURL' => 'https://www.sbazar.cz/robots.txt', // cesta k robots.txt na serveru
-        'robotsTxtFile' => './settings/robots.txt/sbazar.txt', // cesta k robots.txt uloženému lokálně 
-        'testRules' => './settings/tests/sbazar.txt', // cesta k souboru se samotnými SEO testy
-        'curl_useragent' => 'SEO test', // user-agent
-        'email' => 'jaroslav.hlavinka@firma.seznam.cz', // adresát
+        'testRules' => './settings/tests/sbazar.txt', // 2. cesta k souboru se SEO testy
+        'robotsTxtURL' => 'https://www.sbazar.cz/robots.txt', // 3. cesta k robots.txt na serveru
+        'robotsTxtFile' => './settings/robots.txt/sbazar.txt', // 4. cesta k robots.txt uloženému lokálně 
+        'curl_useragent' => 'SEO test', // 5. user-agent
+        'email' => 'jaroslav.hlavinka@firma.seznam.cz', // 6. adresát
     ),
 ```
 Detailně vysvětleno:
-* **ID projektu** - musí být unikátní pro každý projekt. Tímto ID se spouští projekty např. /index.php?id=sbazar.php
-* **cesta k robots.txt na serveru**
-* **cesta k robots.txt uloženému lokálně** - pro ověření, jestli se robots.txt na serveru nezměnil. Při tvorbě testu stáhněte soubor robots.txt z webu a uložte ho SEO robotovi do adresáře /settings/robots.txt/
-* **user-agent** - toho můžete měnit a monitorovat případné specifické chování pro jiné useragenty -Facebot, GoogleBot mobile, SeznamBot, atd. Pro test s jiným user-agentem si založte nový projekt 
-* **adresát** - komu se pošle email v případě chyby v testech
+1. **ID projektu** - musí být unikátní pro každý projekt. Tímto ID se spouští projekty např. /index.php?id=sbazar.php
+2. **cesta k souboru se SEO testy** - cesta, kde má SEO robot hledat soubor s předdefinovanými SEO testy
+3. **cesta k robots.txt na serveru**
+4. **cesta k robots.txt uloženému lokálně** - pro ověření, jestli se robots.txt na serveru nezměnil. Při tvorbě testu stáhněte soubor robots.txt z webu a uložte ho SEO robotovi do adresáře /settings/robots.txt/
+5. **user-agent** - toho můžete měnit a monitorovat případné specifické chování pro jiné useragenty -Facebot, GoogleBot mobile, SeznamBot, atd. Pro test s jiným user-agentem si založte nový projekt 
+6. **adresát** - komu se pošle email v případě chyby v testech
 
-### 2.2 Vytvoření souboru s testy
+### 2.2 Založení SEO testů
+SEO testy se zapisují jednoduše do textového souboru a SEO robot je čte řádek po řádku.
 
+**Prázdné řádky a řádky začínající znakem #** SEO robot přeskakuje. # můžete používat pro vaše interní poznámky k testům.
 
+Jak vypadá zápis:
+1. **URL (povinný parametr)** - tuto URL SEO robot stáhne a její HTTP kód a HTML bude dále testovat
+2. **číslo HTTP statu kódu (povinný parametr)** - pokud je číslo HTTP kódu, který výše uvedená URL vrátí, stejné, tak URL testem HTTP kódu prošla. Sem dávejte pouze číslo. Dobře je "301", špatně je "301 Moved Permanently". 
+3. **definice SEO testů (nepovinný parametr)** - samotná pravidla testů. Viz další kapitola
+
+Příklad: stáhnou se 2 URL a provedou se 4 testy - 2 testy HTTP kódu a 2 testy obsahu homepage:
+```
+# testy na homepage
+https://www.zbozi.cz/?_escaped_fragment_=
+200
+plaintext;;//*[@id="homepage-discounts-title"];;0;;Zboží ve slevě
+plaintext;;//title;;0;;Zboží.cz • Tisíce obchodů na jednom místě s možností srovnání cen
+
+# naprosto nedůležitý komentář
+
+# testy HTTP kódu
+https://www.zbozi.cz/iphone
+200
+
+```
+
+#### 2.2.1 definice SEO testů
+U každé URL může být 0 až X testů. Každý na vlastním řádku. Můžete tak pro jednu URL otestovat zároveň titulek, meta description a obsah stránky. Ale také nemusíte uvést žádný SEO test - například, když chcete změřit přesměrování a HTTP chyby 4XX a 5XX.
+
+Definice SEO testů se oddělují dvěma středníky ;; a mají přesný zápis, který je potřeba dodržet:
+1. **první parametr** říká, co se má vytáhnout z následujícího pravidla. Tady jsou pevně dané možnosti:
+* **plaintext** - vybere jen text elementů bez HTML tagů 
+* **content** - vybere obsah meta tagů
+* **href** - vybere obsah atributu href například v odkazech, nebo rel canonical
+2. **druhý parametr** je XPath cesta k elementu, který se má otestovat
+3. **pořadí elementu vybraného v XPath** - vámi vybraný element bude asi nejčastěji 0 (první v pořadí)
+4. **hodnota**, kterou očekáváte a má se otestovat
+
+Příklady:
+1. v TITLE je přesně toto: "Renault Trafic. - Sbazar.cz":
+```plaintext;;//title;;0;;Renault Trafic. - Sbazar.cz```
+2. v META description je "Inzerát Renault Trafic. v okrese Praha-východ, cena 0 Kč, od ciciolina.sicher na Sbazar.cz":
+```content;;meta[name="description"];;0;;Inzerát Renault Trafic. v okrese Praha-východ, cena 0 Kč, od ciciolina.sicher na Sbazar.cz```
+3. v META robots je "noindex,nofollow"
+```content;;meta[name="robots"];;0;;noindex,nofollow```
+4. META robots je prázdný, nebo na stránce vůbec není
+```content;;meta[name="robots"];;0;;```
+5. REL canonical je přesně: "https://www.sbazar.cz"
+```href;;link[rel="canonical"];;0;;https://www.sbazar.cz```
+6. REL next je: "https://www.sbazar.cz"
+```href;;link[rel="next"];;0;;https://www.sbazar.cz```
+7. REL prev je: "https://www.sbazar.cz/3"
+```href;;link[rel="prev"];;0;;https://www.sbazar.cz/3```
+8. H1 je "Renault Trafic"
+```plaintext;;h1;;0;;Renault Trafic.```
+9. V 3. <li> v XPath "#box8 > div > div > ul > li" je "něco"
+```plaintext;;#box8 > div > div > ul > li;;2;;něco```
+10. V tagu s ID "localityNameDesktop" je "Praha" 
+```plaintext;;#localityNameDesktop;;0;;Praha```
 
 
 **Tip:** pro první spuštění si udělejte v testech záměrnou chybu, aby se email poslal a vy ho viděli
@@ -94,6 +151,7 @@ Já doporučuji testy spouštět takto často:
 * střední web - někde mezi 20 minutami a jedním dnem 
 
 Spuštění uděláte nejlépe pomocí Cron. 
+* Pro hostované weby: V nastavení hostingu určitě máte naklikávátko Cron - naklikejte každou 
 * Pro Linux: 
 ```
 0,20,40 * * * * root curl https://seo.dev.dszn.cz/seorobot/index.php?id=sbazar.cz >> /dev/null 2>&1
@@ -103,7 +161,5 @@ Spuštění uděláte nejlépe pomocí Cron.
 
 
 ```
-* Pro hostované weby: V nastavení hostingu určitě máte naklikávátko Cron - naklikejte každou 
 
 **Tip:** Jednou za nějaký čas si spusťte testovací skript napříč všemi vašimi weby, který projde z každého webu dvě URL - jednu bez chyby, druhou se záměrnou chybou. Takový monitoring funkčnosti SEO robota - abyste věděli, že stále funguje a nežili v milé nevědomosti, že když nechodí emaily, tak je to dobře. Obvykle není :-)
-
