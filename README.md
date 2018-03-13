@@ -16,8 +16,11 @@ Tak se můžete spolehnout na to, že vám pod rukama nikdo nemění technické 
 ## Jak správně nastavit proces testování SEO?
 ### Testy v testovacím prostředí
 Už teď pravděpodobně testujete web předtím, než nasadíte novou verzi do provozu. Testujete, jestli fungují všechny stránky, stavy aplikace, formuláře, emaily, jestli web vypadá dobře i v IE, atd. Na SEO se většinou nemyslí a netestuje se, jestli se při úpravách neudělala chyba, která rozbije už hotové technické nastavení SEO.
+
 **Naučte vaše programátory testovat na testu i SEO** (klidně i jinak, než SEO robotem).
+
 SEO robot může běžet na testovacím prostředí a před nasazením jen ručně, nebo automaticky spusťte předem definované testy, které otestují SEO na TESTovací verzi webu. Pokud se stane nějaká chyba - pak pošle email SEO konzultantovi a rovnou i odpovědné osobě za web - produktový manažer, webmaster, kdokoliv, kdo může odhalenou chybu začít opravovat (případně rozhodnout, že je to maličkost, která nemá vliv na nasazení.
+
 Odhalení chyby na testu je výrazně lepší, než chybu najít až po nasazení v provozu.
 
 ### Testy v produkčním prodstředí
