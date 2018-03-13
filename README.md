@@ -40,6 +40,70 @@ Druhý typ testů v produkci je průběžný a spouští se automaticky Cronem k
 * programátoři, webaři a jiní profíci, vy ode mne návod k instalaci nepotřebujete ;-)
 
 # Nastavení
-TBD
+## 1. Nastavení emailů a SMTP 
+Nastavení najdete v **/settings/settings.php v poli $generalSettings**.
+Při chybě posílá SEO robot email - nejprve nastavíme SMTP, aby se emaily mohly posílat. Pro posílání emailů používá SEO robot knihovnu PHPmailer - tzn. nastavení SEO robota je rochu ořezané nastavení PHPmailera.
+Příklad nastavení pro Gmail (to je takové nejvíce specifické):
+```
+'smtpDebugLevel' => 4, // hodnota 4 je nejvíce ukecaná a řekne vám toho hodně. Po otestování nastavte zpět na 0. 
+'emailHost' => 'smtp.gmail.com',
+'emailPort' => 587,
+'emailSMTPSecure' => 'tls',
+'emailSMTPAuth' => true,
+'emailUsername' => 'nove-vytvoreny-email-pro-posilani-notifikaci@gmail.com',
+'emailPassword' => 'heslodoemailu', // do budoucna bude xoauth2, tzn. heslo do emailu nebude nikde vidět
+```
+! Pro odesílání emailů je nejlepší vytvořit si úplně nový email na Seznamu, nebo Gmailu. 
 
+## 2. Vytvoření nového testu
+
+### 2.1 Založení nového projektu
+Nový test vytvoříte v **/settings/settings.php v poli $testsSettings**.
+Stačí přidat nové pole s názvem služby do pole $testsSettings. Název služby je důležitý - podle něj budete pak test spouštět.
+
+```
+'sbazar.cz' => // ID projektu
+    array( 	
+        'robotsTxtURL' => 'https://www.sbazar.cz/robots.txt', // cesta k robots.txt na serveru
+        'robotsTxtFile' => './settings/robots.txt/sbazar.txt', // cesta k robots.txt uloženému lokálně 
+        'testRules' => './settings/tests/sbazar.txt', // cesta k souboru se samotnými SEO testy
+        'curl_useragent' => 'SEO test', // user-agent
+        'email' => 'jaroslav.hlavinka@firma.seznam.cz', // adresát
+    ),
+```
+Detailně vysvětleno:
+* **ID projektu** - musí být unikátní pro každý projekt. Tímto ID se spouští projekty např. /index.php?id=sbazar.php
+* **cesta k robots.txt na serveru**
+* **cesta k robots.txt uloženému lokálně** - pro ověření, jestli se robots.txt na serveru nezměnil. Při tvorbě testu stáhněte soubor robots.txt z webu a uložte ho SEO robotovi do adresáře /settings/robots.txt/
+* **user-agent** - toho můžete měnit a monitorovat případné specifické chování pro jiné useragenty -Facebot, GoogleBot mobile, SeznamBot, atd. Pro test s jiným user-agentem si založte nový projekt 
+* **adresát** - komu se pošle email v případě chyby v testech
+
+### 2.2 Vytvoření souboru s testy
+
+
+
+
+**Tip:** pro první spuštění si udělejte v testech záměrnou chybu, aby se email poslal a vy ho viděli
+
+### 2.3 Spouštění testů
+Každá ze služeb se spouští zvláště. Nejsou nijak zřetězeny.
+
+Já doporučuji testy spouštět takto často:
+* velký web, kde se pořád něco děje (eshop, atp.) - co 20 minut
+* malý web, kde se nic neděje - stačí jednou denně (pokud to vůbec má smysl monitorovat SEO robotem)
+* střední web - někde mezi 20 minutami a jedním dnem 
+
+Spuštění uděláte nejlépe pomocí Cron. 
+* Pro Linux: 
+```
+0,20,40 * * * * root curl https://seo.dev.dszn.cz/seorobot/index.php?id=sbazar.cz >> /dev/null 2>&1
+2,22,42 * * * * root curl https://seo.dev.dszn.cz/seorobot/index.php?id=zbozi.cz >> /dev/null 2>&1
+4,24,44 * * * * root curl https://seo.dev.dszn.cz/seorobot/index.php?id=firmy.cz >> /dev/null 2>&1
+6,26,46 * * * * root curl https://seo.dev.dszn.cz/seorobot/index.php?id=firmy-mobilni.cz >> /dev/null 2>&1
+
+
+```
+* Pro hostované weby: V nastavení hostingu určitě máte naklikávátko Cron - naklikejte každou 
+
+**Tip:** Jednou za nějaký čas si spusťte testovací skript napříč všemi vašimi weby, který projde z každého webu dvě URL - jednu bez chyby, druhou se záměrnou chybou. Takový monitoring funkčnosti SEO robota - abyste věděli, že stále funguje a nežili v milé nevědomosti, že když nechodí emaily, tak je to dobře. Obvykle není :-)
 
