@@ -136,7 +136,7 @@ Příklady:
 2. v META description je "Inzerát Renault Trafic. v okrese Praha-východ, cena 0 Kč, od ciciolina.sicher na Sbazar.cz":
     * ```content;;meta[name="description"];;0;;Inzerát Renault Trafic. v okrese Praha-východ, cena 0 Kč, od ciciolina.sicher na Sbazar.cz```
 3. META description obsahuje "Inzerát Renault Trafic. v okrese Praha-východ":
-* ```contentContains;;meta[name="description"];;0;;Inzerát Renault Trafic. v okrese Praha-východ```
+    * ```contentContains;;meta[name="description"];;0;;Inzerát Renault Trafic. v okrese Praha-východ```
 4. v META robots je "noindex,nofollow"
     * ```content;;meta[name="robots"];;0;;noindex,nofollow```
 5. META robots je prázdný, nebo na stránce vůbec není
