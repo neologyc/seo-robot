@@ -86,37 +86,75 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
                     $log .= logger('Špatný HTTP kód. Má být HTTP '.
                             $test .', ale vrátil se HTTP '. $current['statusCode'], 'error');
                 }
-            } else if ( preg_match("/^(href|plaintext|content).*/", $test )) { // tests
+            } else if ( preg_match("/^(href|hrefContains|plaintext|plaintextContains|content|contentContains).*/", $test )) { // tests
                 $a = explode(';;', $test);
                 $html = HtmlDomParser::str_get_html( $current['html'] );
-                $found = '';
+                $haystack = '';
                 switch ($a[0]) {
                   case 'href':
-                    $found = trim ($html->find($a[1], $a[2])->href);
-                    if( $found == $a[3]) {
-                        $log .= logger('v "'. $a[1] . ' [' . $a[2] .']" je správně "'. $a[3] .'".' );
-                    } else {
-                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $a[3] .'", ale na stránce je  "'. $found . '"', 'error');
-                    }
-                    break;
+	                    $haystack = trim ($html->find($a[1], $a[2])->href);
+											$needle = $a[3];
+	                    if( $haystack == $needle) {
+	                        $log .= logger('v "'. $a[1] . ' [' . $a[2] .']" je správně "'. $needle .'".' );
+	                    } else {
+	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
+	                    }
+	                    break;
+
+
+									case 'hrefContains':
+											$haystack = trim ($html->find($a[1], $a[2])->href);
+											$needle = $a[3];
+											if( strpos($haystack, $needle) !== FALSE ) {
+													$log .= logger('v "'. $a[1] . ' [' . $a[2] .']" správně obsahuje "'. $needle .'".' );
+											} else {
+													$log .= logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
+											}
+											break;
+
 
                   case 'plaintext':
-                    $found = trim ($html->find($a[1], $a[2])->plaintext);
-                    if( $found == $a[3]) {
-                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" je správně "'. $a[3] .'".' );
-                    } else {
-                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $a[3] .'", ale na stránce je  "'. $found . '"', 'error');
-                    }
-                    break;
+	                    $haystack = trim ($html->find($a[1], $a[2])->plaintext);
+											$needle = $a[3];
+	                    if( $haystack == $needle) {
+	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" je správně "'. $needle .'".' );
+	                    } else {
+	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
+	                    }
+	                    break;
+
+
+									case 'plaintextContains':
+	                    $haystack = trim ($html->find($a[1], $a[2])->plaintext);
+											$needle = $a[3];
+	                    if( strpos($haystack, $needle) !== FALSE ) {
+	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" správně obsahuje "'. $needle .'".' );
+	                    } else {
+	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
+	                    }
+	                    break;
+
 
                   case 'content':
-                    $found = trim ($html->find($a[1], $a[2])->content);
-                    if( $found == $a[3]) {
-                        $log .= logger('v "'. $a[1] . ' [' . $a[2] .']" je správně "'. $a[3] .'".' );
-                    } else {
-                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $a[3] .'", ale na stránce je  "'. $found . '"', 'error');
-                    }
-                    break;
+	                    $haystack = trim ($html->find($a[1], $a[2])->content);
+											$needle = $a[3];
+	                    if( $haystack == $needle) {
+	                        $log .= logger('v "'. $a[1] . ' [' . $a[2] .']" je správně "'. $needle .'".' );
+	                    } else {
+	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
+	                    }
+	                    break;
+
+
+									case 'contentContains':
+	                    $haystack = trim ($html->find($a[1], $a[2])->content);
+											$needle = $a[3];
+	                    if( strpos($haystack, $needle) !== FALSE ) {
+	                        $log .= logger('v "'. $a[1] . ' [' . $a[2] .']" správně obsahuje "'. $needle .'".' );
+	                    } else {
+	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
+	                    }
+	                    break;
 
                   default:
                     break;
