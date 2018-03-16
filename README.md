@@ -145,7 +145,7 @@ Příklady:
     * ```href;;link[rel="canonical"];;0;;https://www.sbazar.cz```
 7. REL next je: "https://www.sbazar.cz"
     * ```href;;link[rel="next"];;0;;https://www.sbazar.cz```
-8. REL prev je: "https://www.sbazar.cz/3"
+8. REL prev obsahuje: "/3"
     * ```hrefContains;;link[rel="prev"];;0;;/3```
 9. H1 je "Renault Trafic"
     * ```plaintext;;h1;;0;;Renault Trafic.```
