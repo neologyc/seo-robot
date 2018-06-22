@@ -188,7 +188,7 @@ if($hasError === TRUE) {
 			$mail->addReplyTo($generalSettings['emailFrom']);
 
 			// když je více emailů
-			if ( strpos($settings['email'], ';') !== false ) {
+			if ( strpos( $settings['email'], ';') !== false ) {
 					$emails = explode(';', $settings['email'] );
 					foreach ($emails as $email) {
 							$mail->addAddress($email);
