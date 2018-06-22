@@ -37,7 +37,7 @@ Druhý typ testů v produkci je průběžný a spouští se automaticky Cronem k
 ## Jednoduchá instalace pro začátečníky:
 * Stáhněte .ZIP - vpravo nahoře
 * Rozbalte SEO robota do adresáře, kde máte webové aplikace
-* Nastavte SEO robota tak, aby byl dostupný na URL dostupné z Cron - může být i veřejně dostupný, ale pak je lepší nastavit přístup jen z Cron a z vašich IP, aby se tam nedostal někdo, kdo tam nemá co dělat :) 
+* Nastavte SEO robota tak, aby byl dostupný na URL dostupné z Cron - může být i veřejně dostupný, ale pak je lepší nastavit přístup jen z Cron a z vašich IP, aby se tam nedostal někdo, kdo tam nemá co dělat :)
 * Nastavte práva k souborům (chmod)
 
 
@@ -46,12 +46,12 @@ Druhý typ testů v produkci je průběžný a spouští se automaticky Cronem k
 
 
 # Nastavení
-## 1. Nastavení emailů a SMTP 
+## 1. Nastavení emailů a SMTP
 Nastavení najdete v **/settings/settings.php v poli $generalSettings**.
 Při chybě posílá SEO robot email - nejprve nastavíme SMTP, aby se emaily mohly posílat. Pro posílání emailů používá SEO robot knihovnu PHPmailer - tzn. nastavení SEO robota je rochu ořezané nastavení PHPmailera.
 Příklad nastavení pro Gmail (to je takové nejvíce specifické):
 ```
-'smtpDebugLevel' => 4, // hodnota 4 je nejvíce ukecaná a řekne vám toho hodně. Po otestování nastavte zpět na 0. 
+'smtpDebugLevel' => 4, // hodnota 4 je nejvíce ukecaná a řekne vám toho hodně. Po otestování nastavte zpět na 0.
 'emailHost' => 'smtp.gmail.com',
 'emailPort' => 587,
 'emailSMTPSecure' => 'tls',
@@ -59,7 +59,7 @@ Příklad nastavení pro Gmail (to je takové nejvíce specifické):
 'emailUsername' => 'nove-vytvoreny-email-pro-posilani-notifikaci@gmail.com',
 'emailPassword' => 'heslodoemailu', // do budoucna bude xoauth2, tzn. heslo do emailu nebude nikde vidět
 ```
-! Pro odesílání emailů je nejlepší vytvořit si úplně nový email na Seznamu, nebo Gmailu. 
+! Pro odesílání emailů je nejlepší vytvořit si úplně nový email na Seznamu, nebo Gmailu.
 
 
 ## 2. Nastavení SEO testů
@@ -74,7 +74,7 @@ Stačí přidat nové pole s názvem služby do pole $testsSettings. Název slu�
     array( 	
         'testRules' => './settings/tests/sbazar.txt', // 2. cesta k souboru se SEO testy
         'robotsTxtURL' => 'https://www.sbazar.cz/robots.txt', // 3. cesta k robots.txt na serveru
-        'robotsTxtFile' => './settings/robots.txt/sbazar.txt', // 4. cesta k robots.txt uloženému lokálně 
+        'robotsTxtFile' => './settings/robots.txt/sbazar.txt', // 4. cesta k robots.txt uloženému lokálně
         'curl_useragent' => 'SEO test', // 5. user-agent
         'email' => 'jaroslav.hlavinka@firma.seznam.cz', // 6. adresát
     ),
@@ -84,7 +84,7 @@ Detailně vysvětleno:
 2. **cesta k souboru se SEO testy** - cesta, kde má SEO robot hledat soubor s předdefinovanými SEO testy
 3. **cesta k robots.txt na serveru**
 4. **cesta k robots.txt uloženému lokálně** - pro ověření, jestli se robots.txt na serveru nezměnil. Při tvorbě testu stáhněte soubor robots.txt z webu a uložte ho SEO robotovi do adresáře /settings/robots.txt/
-5. **user-agent** - toho můžete měnit a monitorovat případné specifické chování pro jiné useragenty -Facebot, GoogleBot mobile, SeznamBot, atd. Pro test s jiným user-agentem si založte nový projekt 
+5. **user-agent** - toho můžete měnit a monitorovat případné specifické chování pro jiné useragenty -Facebot, GoogleBot mobile, SeznamBot, atd. Pro test s jiným user-agentem si založte nový projekt
 6. **adresát** - komu se pošle email v případě chyby v testech
 
 
@@ -95,7 +95,7 @@ SEO testy se zapisují jednoduše do textového souboru a SEO robot je čte řá
 
 Jak vypadá zápis:
 1. **URL (povinný parametr)** - tuto URL SEO robot stáhne a její HTTP kód a HTML bude dále testovat
-2. **číslo HTTP statu kódu (povinný parametr)** - pokud je číslo HTTP kódu, který výše uvedená URL vrátí, stejné, tak URL testem HTTP kódu prošla. Sem dávejte pouze číslo. Dobře je "301", špatně je "301 Moved Permanently". 
+2. **číslo HTTP statu kódu (povinný parametr)** - pokud je číslo HTTP kódu, který výše uvedená URL vrátí, stejné, tak URL testem HTTP kódu prošla. Sem dávejte pouze číslo. Dobře je "301", špatně je "301 Moved Permanently".
 3. **definice SEO testů (nepovinný parametr)** - samotná pravidla testů. Viz další kapitola
 
 Příklad: stáhnou se 2 URL a provedou se 4 testy - 2 testy HTTP kódu a 2 testy obsahu homepage:
@@ -120,12 +120,12 @@ U každé URL může být 0 až X testů. Každý na vlastním řádku. Můžete
 
 Definice SEO testů se oddělují dvěma středníky ;; a mají přesný zápis, který je potřeba dodržet:
 1. **první parametr** říká, co se má vytáhnout z následujícího pravidla. Tady jsou pevně dané možnosti:
-    * **plaintext** - vybere jen text elementů bez HTML tagů 
+    * **plaintext** - vybere jen text elementů bez HTML tagů
     * **content** - vybere obsah meta tagů
     * **href** - vybere obsah atributu href například v odkazech, nebo rel canonical
-    * **plaintextContains** - zjistí, jestli plaintext HTML tagu zadaného pomocí Xpath obsahuje zadaný text 
-    * **contentContains** - zjistí, jestli content HTML tagu zadaného pomocí Xpath obsahuje zadaný text 
-    * **hrefContains** - zjistí, jestli atribut href HTML tagu zadaného pomocí Xpath obsahuje zadaný text 
+    * **plaintextContains** - zjistí, jestli plaintext HTML tagu zadaného pomocí Xpath obsahuje zadaný text
+    * **contentContains** - zjistí, jestli content HTML tagu zadaného pomocí Xpath obsahuje zadaný text
+    * **hrefContains** - zjistí, jestli atribut href HTML tagu zadaného pomocí Xpath obsahuje zadaný text
 2. **druhý parametr** je XPath cesta k elementu, který se má otestovat
 3. **pořadí elementu vybraného v XPath** - vámi vybraný element bude asi nejčastěji 0 (první v pořadí)
 4. **hodnota**, kterou očekáváte a má se otestovat
@@ -151,8 +151,9 @@ Příklady:
     * ```plaintext;;h1;;0;;Renault Trafic.```
 10. V 3. tagu LI v XPath "#box8 > div > div > ul > li" je "něco"    
     * ```plaintext;;#box8 > div > div > ul > li;;2;;něco```
-11. V tagu s ID "localityNameDesktop" je "Praha" 
+11. V tagu s ID "localityNameDesktop" je "Praha"
     * ```plaintextContains;;#localityNameDesktop;;0;;Praha```
+
 
 
 **Tip:** pro první spuštění si udělejte v testech záměrnou chybu, aby se email poslal a vy ho viděli
@@ -164,11 +165,11 @@ Každá ze služeb se spouští zvláště. Nejsou nijak zřetězeny.
 Já doporučuji testy spouštět takto často:
 * velký web, kde se pořád něco děje (eshop, atp.) - co 20 minut
 * malý web, kde se nic neděje - stačí jednou denně (pokud to vůbec má smysl monitorovat SEO robotem)
-* střední web - někde mezi 20 minutami a jedním dnem 
+* střední web - někde mezi 20 minutami a jedním dnem
 
-Spuštění uděláte nejlépe pomocí Cron. 
-* Pro hostované weby: V nastavení hostingu určitě máte naklikávátko Cron - naklikejte každou 
-* Pro Linux: 
+Spuštění uděláte nejlépe pomocí Cron.
+* Pro hostované weby: V nastavení hostingu určitě máte naklikávátko Cron - naklikejte každou
+* Pro Linux:
 ```
 0,20,40 * * * * root curl https://seo.dev.dszn.cz/seorobot/index.php?id=sbazar.cz >> /dev/null 2>&1
 2,22,42 * * * * root curl https://seo.dev.dszn.cz/seorobot/index.php?id=zbozi.cz >> /dev/null 2>&1
