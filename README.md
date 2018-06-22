@@ -26,7 +26,7 @@ Odhalení chyby na testu je výrazně lepší, než chybu najít až po nasazen�
 
 
 ### Testy v produkčním prodstředí
-Druhý typ testů v produkci je průběžný a spouští se automaticky Cronem každý den (v Seznamu to mám nastaveno každý den co 20 minut). Tím  se nejpozději do 20 minut po změné na webu dozvím, že se změnilo něco, co může ovlivnit SEO. To je relativně hodně rychlé a snižuje to pŕípadné problémy.
+Druhý typ testů v produkci je průběžný a spouští se automaticky Cronem každý den (v Seznamu to mám nastaveno každý den co 20 minut). Tím  se nejpozději do 20 minut po změně na webu dozvím, že se změnilo něco, co může ovlivnit SEO. To je relativně hodně rychlé a snižuje to případné problémy.
 
 
 # Instalace
@@ -145,7 +145,7 @@ Příklady:
     * ```href;;link[rel="canonical"];;0;;https://www.sbazar.cz```
 7. REL next je: "https://www.sbazar.cz"
     * ```href;;link[rel="next"];;0;;https://www.sbazar.cz```
-8. REL prev je: "https://www.sbazar.cz/3"
+8. REL prev obsahuje: "/3"
     * ```hrefContains;;link[rel="prev"];;0;;/3```
 9. H1 je "Renault Trafic"
     * ```plaintext;;h1;;0;;Renault Trafic.```
