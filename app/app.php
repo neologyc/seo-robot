@@ -189,8 +189,8 @@ if($hasError === TRUE) {
 
 			// když je více emailů
 			if ( strpos($settings['email'], ';') !== false ) {
-					$emails = explode($settings['email'], ';');
-					foreach ($emails as $key => $email) {
+					$emails = explode(';', $settings['email'] );
+					foreach ($emails as $email) {
 							$mail->addAddress($email);
 					}
 			}	else {
