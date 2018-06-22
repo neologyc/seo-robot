@@ -1,6 +1,11 @@
 # Changelog
 Co se na SEO robotovi změnilo?
 
+## [1.1.3] - 2018-06-22
+### Novinky
+- Lze nastavit více emailových adres pro odeslání reportu. Oddělovač je středník ";"
+
+
 ## [1.1.2] - 2018-03-16
 ### Novinky
 - Nyní umí rovnou rozbalit gzipped stránky v CURLu.

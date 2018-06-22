@@ -186,7 +186,16 @@ if($hasError === TRUE) {
 			$mail->Password = $generalSettings['emailPassword'];
 			$mail->setFrom($generalSettings['emailFrom']);
 			$mail->addReplyTo($generalSettings['emailFrom']);
-			$mail->addAddress($settings['email']);
+
+			// když je více emailů
+			if ( strpos($settings['email'], ';') !== false ) {
+					$emails = explode($settings['email'], ';');
+					foreach ($emails as $key => $email) {
+							$mail->addAddress($email);
+					}
+			}	else {
+					$mail->addAddress($settings['email']);
+			}
 			$mail->Subject = 'SEO test se nezdařil - '. $testid;
 			$mail->msgHTML($log);
 			$mail->AltBody = strip_tags($log);

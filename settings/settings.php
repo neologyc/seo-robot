@@ -7,7 +7,7 @@ $testsSettings = array(
 						'robotsTxtURL' => 'https://www.sbazar.cz/robots.txt',
 				'testRules' => './settings/tests/sbazar.txt',
 				'curl_useragent' => 'SEO test',
-				'email' => 'email-kam-poslat-report@seznam.cz',
+				'email' => 'email-kam-poslat-report@seznam.cz', // středník odděluje více emailů
 		 ),
 
 	// same test as previous, but with different useragent for testing "hacks for googlebot mobile"
