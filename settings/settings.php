@@ -4,10 +4,10 @@ $testsSettings = array(
 
 	'sbazar.cz' =>
 		array( 	'robotsTxtFile' => './settings/robots.txt/sbazar.txt',
-						'robotsTxtURL' => 'https://www.sbazar.cz/robots.txt',
-				'testRules' => './settings/tests/sbazar.txt',
-				'curl_useragent' => 'SEO test',
-				'email' => 'email-kam-poslat-report@seznam.cz', // středník odděluje více emailů
+			'robotsTxtURL' => 'https://www.sbazar.cz/robots.txt',
+			'testRules' => './settings/tests/sbazar.txt',
+			'curl_useragent' => 'SEO test',
+			'email' => 'email-kam-poslat-report@seznam.cz', // středník odděluje více emailů
 		 ),
 
 	// same test as previous, but with different useragent for testing "hacks for googlebot mobile"
