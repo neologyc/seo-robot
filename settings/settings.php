@@ -45,6 +45,6 @@ $generalSettings = array(
 				'smtpDebugLevel' => 0, // 2 or 4 when debugging
 			);
 $log = '';
-error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+// error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 //error_reporting(E_ALL);
-//error_reporting(E_ERROR);
+error_reporting(E_ERROR);
