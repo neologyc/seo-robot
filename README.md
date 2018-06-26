@@ -31,6 +31,7 @@ Druhý typ testů v produkci je průběžný a spouští se automaticky Cronem k
 
 # Instalace
 ## Požadavky na prostředí:
+* Webhosting, nebo
 * Linux server s PHP a Cron (třeba VPS)
 
 
