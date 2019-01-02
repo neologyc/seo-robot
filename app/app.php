@@ -5,6 +5,10 @@ use Sunra\PhpSimple\HtmlDomParser;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 $log .= '';
+$logTemp .= '';
+$logTimes = '';
+$logErrors = '';
+$logCurrentURL = '';
 
 // test if the testid is defined in settings file - settings.php
 if ( !array_key_exists( $testid, $testsSettings ) ) {
@@ -22,13 +26,13 @@ if ( array_key_exists( 'curl_useragent', $settings ) ) {
 	define('DEFAULT_USER_AGENT', '');
 }
 
-$log .= logger('Začátek testu: ' . date("H:i:s Y-m-d"), 'info' );
-$log .= logger('Služba: ' . $testid, 'info' );
+$logTimes = logger('Začátek testu: ' . date("H:i:s Y-m-d"), 'info' );
+$logTimes .= logger('Služba: ' . $testid, 'info' );
 
 // start robots.txt test
 if ( array_key_exists( 'robotsTxtURL', $settings ) && array_key_exists( 'robotsTxtFile', $settings ) &&
 	$settings['robotsTxtURL'] != '' && $settings['robotsTxtFile'] != '' ) {
-		$log .= logger('Testy robots.txt', 'boldInfo');
+		$logTemp .= logger('Testy robots.txt', 'boldInfo');
 		$response = downloadURL( $settings['robotsTxtURL'] );
 
 		// TEST if chyba 50X, tak stahnout znovu
@@ -42,37 +46,37 @@ if ( array_key_exists( 'robotsTxtURL', $settings ) && array_key_exists( 'robotsT
 		}
 
 		if ( $response['statusCode'] != '200' ) {
-				$log .= logger('Robots.txt na adrese ' .$settings['robotsTxtURL'].
+				$logTemp .= logger('Robots.txt na adrese ' .$settings['robotsTxtURL'].
 									 ' vrátil chybu ' . $response['status'], 'error' );
 		} else {
-				$log .= logger('Robots.txt je dostupný.');
+				$logTemp .= logger('Robots.txt je dostupný.');
 		}
 
 		// test if robots.txt is the same as in the file
 			$robotsFileString = file_get_contents( $settings['robotsTxtFile'] );
 			if ( $robotsFileString === FALSE ) {
-					$log .= logger('Chyba při čtení souboru "' .$settings['robotsTxtFile'].
+					$logTemp .= logger('Chyba při čtení souboru "' .$settings['robotsTxtFile'].
 					'". Například protože neexistuje, nebo nemáte práva jej číst.', 'error');
 			} else {
         if ( $response['html'] === $robotsFileString) {
-            $log .= logger('Robots.txt je stejný jako testovací.');
+            $logTemp .= logger('Robots.txt je stejný jako testovací.');
         } else {
-            $log .= logger('Robots.txt na '. $settings['robotsTxtURL']
+            $logTemp .= logger('Robots.txt na '. $settings['robotsTxtURL']
             .' je jiný, než testovací.', "error");
         }
       }
 
 } else {
-    $log .= logger('Testy robots.txt nejsou definovány, takže neproběhly.', "notice");
+    $logTemp .= logger('Testy robots.txt nejsou definovány, takže neproběhly.', "notice");
 }
 
 // start SEOtests
 if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' ) {
-		$log .= logger('Testy typových stránek', 'boldInfo');
+		$logTemp .= logger('Testy typových stránek', 'boldInfo');
 
     $testsFileArray = file( $settings['testRules'], FILE_SKIP_EMPTY_LINES);
 		if ( $testsFileArray === FALSE ) {
-				$log .= logger('Chyba při čtení souboru "' .$settings['testRules'].
+				$logTemp .= logger('Chyba při čtení souboru "' .$settings['testRules'].
 				'". Například protože neexistuje, nebo nemáte práva jej číst.', 'error');
 		} else {
         $current = array('url' => '', 'statusCode' => '', 'html' => '');
@@ -84,7 +88,8 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
                 continue;
 
             } else if( substr( $test, 0, 4 ) == "http" ) { // is URL
-                $response = downloadURL( $test );
+
+								$response = downloadURL( $test );
 
 								// TEST if chyba 50X, tak stahnout znovu
 								if ( preg_match('/^50[0-9]$/', $response['statusCode'])) {
@@ -99,14 +104,16 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
                 $current['url'] = $test;
                 $current['statusCode'] = $response['statusCode'];
                 $current['html'] = $response['html'];
-                $log .= logger('Testy pro URL <a href="'.$test.'">'.$test. '</a>:', "boldInfo");
+                $logTemp .= logger('Testy pro URL <a href="'.$test.'">'.$test. '</a>:', "boldInfo");
+								$logCurrentURL = logger('Testy pro URL <a href="'.$test.'">'.$test. '</a>:', "boldInfo");
 
             } else if ( preg_match("/^[0-9]+$/", $test ) ) { // is status Code
                 if ( $current['statusCode'] == $test ) {
-                    $log .= logger('Správný HTTP kód '.$test);
+                    $logTemp .= logger('Správný HTTP kód '.$test);
                 } else {
-                    $log .= logger('Špatný HTTP kód. Má být HTTP '.
+                    $logTemp .= logger('Špatný HTTP kód. Má být HTTP '.
                             $test .', ale vrátil se HTTP '. $current['statusCode'], 'error');
+										$logErrors .= $logCurrentURL.'<br>'.$logTemp;
                 }
             } else if ( preg_match("/^(href|hrefContains|plaintext|plaintextContains|content|contentContains).*/", $test )) { // tests
                 $a = explode(';;', $test);
@@ -117,9 +124,10 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 	                    $haystack = trim ($html->find($a[1], $a[2])->href);
 											$needle = $a[3];
 	                    if( $haystack == $needle) {
-	                        $log .= logger('v "'. $a[1] . ' [' . $a[2] .']" je správně "'. $needle .'".' );
+	                        $logTemp .= logger('v "'. $a[1] . ' [' . $a[2] .']" je správně "'. $needle .'".' );
 	                    } else {
-	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
+	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
+													$logErrors .= $logCurrentURL.'<br>'.$logTemp;
 	                    }
 	                    break;
 
@@ -128,9 +136,10 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 											$haystack = trim ($html->find($a[1], $a[2])->href);
 											$needle = $a[3];
 											if( strpos($haystack, $needle) !== FALSE ) {
-													$log .= logger('v "'. $a[1] . ' [' . $a[2] .']" správně obsahuje "'. $needle .'".' );
+													$logTemp .= logger('v "'. $a[1] . ' [' . $a[2] .']" správně obsahuje "'. $needle .'".' );
 											} else {
-													$log .= logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
+													$logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
+													$logErrors .= $logCurrentURL.'<br>'.$logTemp;
 											}
 											break;
 
@@ -139,9 +148,10 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 	                    $haystack = trim ($html->find($a[1], $a[2])->plaintext);
 											$needle = $a[3];
 	                    if( $haystack == $needle) {
-	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" je správně "'. $needle .'".' );
+	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" je správně "'. $needle .'".' );
 	                    } else {
-	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
+	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
+													$logErrors .= $logCurrentURL.'<br>'.$logTemp;
 	                    }
 	                    break;
 
@@ -150,9 +160,10 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 	                    $haystack = trim ($html->find($a[1], $a[2])->plaintext);
 											$needle = $a[3];
 	                    if( strpos($haystack, $needle) !== FALSE ) {
-	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" správně obsahuje "'. $needle .'".' );
+	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" správně obsahuje "'. $needle .'".' );
 	                    } else {
-	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
+	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
+													$logErrors .= $logCurrentURL.'<br>'.$logTemp;
 	                    }
 	                    break;
 
@@ -161,9 +172,10 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 	                    $haystack = trim ($html->find($a[1], $a[2])->content);
 											$needle = $a[3];
 	                    if( $haystack == $needle) {
-	                        $log .= logger('v "'. $a[1] . ' [' . $a[2] .']" je správně "'. $needle .'".' );
+	                        $logTemp .= logger('v "'. $a[1] . ' [' . $a[2] .']" je správně "'. $needle .'".' );
 	                    } else {
-	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
+	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
+													$logErrors .= $logCurrentURL.'<br>'.$logTemp;
 	                    }
 	                    break;
 
@@ -172,9 +184,10 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 	                    $haystack = trim ($html->find($a[1], $a[2])->content);
 											$needle = $a[3];
 	                    if( strpos($haystack, $needle) !== FALSE ) {
-	                        $log .= logger('v "'. $a[1] . ' [' . $a[2] .']" správně obsahuje "'. $needle .'".' );
+	                        $logTemp .= logger('v "'. $a[1] . ' [' . $a[2] .']" správně obsahuje "'. $needle .'".' );
 	                    } else {
-	                        $log .= logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
+	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
+													$logErrors .= $logCurrentURL.'<br>'.$logTemp;
 	                    }
 	                    break;
 
@@ -189,7 +202,10 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
      $log .= logger('Testy nejsou definovány, takže neproběhly.', "notice");
 }
 
-$log .= logger('<br><br>Konec testu: ' . date("H:i:s Y-m-d"), 'info' );
+$logTimes .= logger('<br><br>Konec testu: ' . date("H:i:s Y-m-d"), 'info' );
+
+
+$log = $logTimes.'<br><br>'.$logErrors.'<br><br>'.$logTemp.'<br><br><br>';
 
 // if there is even one error, we send email
 if($hasError === TRUE) {
