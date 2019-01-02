@@ -205,7 +205,7 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 $logTimes .= logger('<br><br>Konec testu: ' . date("H:i:s Y-m-d"), 'info' );
 
 
-$log = $logTimes.'<br><br>'.$logErrors.'<br><br>'.$logTemp.'<br><br><br>';
+$log = $logTimes.'<br><br><h2>Chyby:</h2><br>'.$logErrors.'<br><br>'.$logTemp.'<br><br><br>';
 
 // if there is even one error, we send email
 if($hasError === TRUE) {
