@@ -30,6 +30,17 @@ if ( array_key_exists( 'robotsTxtURL', $settings ) && array_key_exists( 'robotsT
 	$settings['robotsTxtURL'] != '' && $settings['robotsTxtFile'] != '' ) {
 		$log .= logger('Testy robots.txt', 'boldInfo');
 		$response = downloadURL( $settings['robotsTxtURL'] );
+
+		// TEST if chyba 50X, tak stahnout znovu
+		if ( preg_match('/^50[0-9]$/', $response['statusCode'])) {
+				$response = downloadURL( $settings['robotsTxtURL'] );
+		}
+
+		// TEST if chyba 50X, tak stahnout znovu round 2
+		if ( preg_match('/^50[0-9]$/', $response['statusCode'])) {
+				$response = downloadURL( $settings['robotsTxtURL'] );
+		}
+
 		if ( $response['statusCode'] != '200' ) {
 				$log .= logger('Robots.txt na adrese ' .$settings['robotsTxtURL'].
 									 ' vrátil chybu ' . $response['status'], 'error' );
@@ -74,6 +85,17 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 
             } else if( substr( $test, 0, 4 ) == "http" ) { // is URL
                 $response = downloadURL( $test );
+
+								// TEST if chyba 50X, tak stahnout znovu
+								if ( preg_match('/^50[0-9]$/', $response['statusCode'])) {
+										$response = downloadURL( $test );
+								}
+
+								// TEST if chyba 50X, tak stahnout znovu round 2
+								if ( preg_match('/^50[0-9]$/', $response['statusCode'])) {
+										$response = downloadURL( $test );
+								}
+
                 $current['url'] = $test;
                 $current['statusCode'] = $response['statusCode'];
                 $current['html'] = $response['html'];
