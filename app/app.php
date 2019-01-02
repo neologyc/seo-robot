@@ -5,7 +5,7 @@ use Sunra\PhpSimple\HtmlDomParser;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 $log .= '';
-$logTemp .= '';
+$logTemp = '';
 $logTimes = '';
 $logErrors = '';
 $logCurrentURL = '';
@@ -105,7 +105,7 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
                 $current['statusCode'] = $response['statusCode'];
                 $current['html'] = $response['html'];
                 $logTemp .= logger('Testy pro URL <a href="'.$test.'">'.$test. '</a>:', "boldInfo");
-								$logCurrentURL = logger('Testy pro URL <a href="'.$test.'">'.$test. '</a>:', "boldInfo");
+								$logCurrentURL = logger('Testy pro URL <a href="'.$test.'">'.$test. '</a>:', "boldInfo", FALSE);
 
             } else if ( preg_match("/^[0-9]+$/", $test ) ) { // is status Code
                 if ( $current['statusCode'] == $test ) {
@@ -199,7 +199,7 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
     }
 
 } else {
-     $log .= logger('Testy nejsou definovány, takže neproběhly.', "notice");
+     $logTemp .= logger('Testy nejsou definovány, takže neproběhly.', "notice");
 }
 
 $logTimes .= logger('<br><br>Konec testu: ' . date("H:i:s Y-m-d"), 'info' );
