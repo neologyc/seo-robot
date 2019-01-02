@@ -207,6 +207,8 @@ $logTimes .= logger('<br><br>Konec testu: ' . date("H:i:s Y-m-d"), 'info' );
 
 $log = $logTimes.'<br><br><h2>Chyby:</h2><br>'.$logErrors.'<br><br>'.$logTemp.'<br><br><br>';
 
+echo $log;
+
 // if there is even one error, we send email
 if($hasError === TRUE) {
   if ( array_key_exists( 'emailUsername', $generalSettings ) && array_key_exists( 'emailPassword', $generalSettings)

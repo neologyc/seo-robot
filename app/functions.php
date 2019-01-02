@@ -48,7 +48,7 @@ function logger($text, $type = "ok", $print = TRUE) {
 				$htmlLog = "".$text."<br>";
 		}
 		if ($print === TRUE )  {
-			echo $htmlLog;
+			 //echo $htmlLog;
 		}
 		return $htmlLog;
 }
