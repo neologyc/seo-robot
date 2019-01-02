@@ -99,7 +99,7 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
                 $current['url'] = $test;
                 $current['statusCode'] = $response['statusCode'];
                 $current['html'] = $response['html'];
-                $log .= logger('Testy pro URL '.$test. ':', "boldInfo");
+                $log .= logger('Testy pro URL <a href="'.$test.'">'.$test. '</a>:', "boldInfo");
 
             } else if ( preg_match("/^[0-9]+$/", $test ) ) { // is status Code
                 if ( $current['statusCode'] == $test ) {
