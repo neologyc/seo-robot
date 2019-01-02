@@ -33,7 +33,7 @@ function downloadURL($url, $useragent = DEFAULT_USER_AGENT){
  * @param string $type
  * @return html string
  */
-function logger($text, $type = "ok", $print = TRUE) {
+function logger($text, $type = "ok") {
 		$htmlLog = '';
 		if ( $type == "ok" ) {
 				$htmlLog = "<span style='color:lime;font-weight:bold'>OK: </span><span>".$text."</span><br>";
@@ -46,9 +46,6 @@ function logger($text, $type = "ok", $print = TRUE) {
 				$htmlLog = "<br><b>".$text."</b><br>";
 		} else if ( $type == "info") {
 				$htmlLog = "".$text."<br>";
-		}
-		if ($print === TRUE )  {
-			 //echo $htmlLog;
 		}
 		return $htmlLog;
 }

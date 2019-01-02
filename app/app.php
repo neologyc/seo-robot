@@ -26,8 +26,9 @@ if ( array_key_exists( 'curl_useragent', $settings ) ) {
 	define('DEFAULT_USER_AGENT', '');
 }
 
-$logTimes = logger('Začátek testu: ' . date("H:i:s Y-m-d"), 'info' );
-$logTimes .= logger('Služba: ' . $testid, 'info' );
+$logTimes = logger('Služba: ' . $testid, 'info' );
+$logTimes .= logger('Začátek testu: ' . date("H:i:s Y-m-d"), 'info' );
+
 
 // start robots.txt test
 if ( array_key_exists( 'robotsTxtURL', $settings ) && array_key_exists( 'robotsTxtFile', $settings ) &&
@@ -105,7 +106,7 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
                 $current['statusCode'] = $response['statusCode'];
                 $current['html'] = $response['html'];
                 $logTemp .= logger('Testy pro URL <a href="'.$test.'">'.$test. '</a>:', "boldInfo");
-								$logCurrentURL = logger('Testy pro URL <a href="'.$test.'">'.$test. '</a>:', "boldInfo", FALSE);
+								$logCurrentURL = logger('Testy pro URL <a href="'.$test.'">'.$test. '</a>:', "boldInfo");
 
             } else if ( preg_match("/^[0-9]+$/", $test ) ) { // is status Code
                 if ( $current['statusCode'] == $test ) {
@@ -113,7 +114,8 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
                 } else {
                     $logTemp .= logger('Špatný HTTP kód. Má být HTTP '.
                             $test .', ale vrátil se HTTP '. $current['statusCode'], 'error');
-										$logErrors .= $logCurrentURL.'<br>'.$logTemp;
+										$logErrors .= $logCurrentURL.logger('Špatný HTTP kód. Má být HTTP '.
+                            $test .', ale vrátil se HTTP '. $current['statusCode'], 'error');
                 }
             } else if ( preg_match("/^(href|hrefContains|plaintext|plaintextContains|content|contentContains).*/", $test )) { // tests
                 $a = explode(';;', $test);
@@ -127,7 +129,7 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 	                        $logTemp .= logger('v "'. $a[1] . ' [' . $a[2] .']" je správně "'. $needle .'".' );
 	                    } else {
 	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
-													$logErrors .= $logCurrentURL.'<br>'.$logTemp;
+													$logErrors .= $logCurrentURL.logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
 	                    }
 	                    break;
 
@@ -139,7 +141,7 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 													$logTemp .= logger('v "'. $a[1] . ' [' . $a[2] .']" správně obsahuje "'. $needle .'".' );
 											} else {
 													$logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
-													$logErrors .= $logCurrentURL.'<br>'.$logTemp;
+													$logErrors .= $logCurrentURL.logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
 											}
 											break;
 
@@ -151,7 +153,7 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" je správně "'. $needle .'".' );
 	                    } else {
 	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
-													$logErrors .= $logCurrentURL.'<br>'.$logTemp;
+													$logErrors .= $logCurrentURL.logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je  "'. $haystack . '"', 'error');
 	                    }
 	                    break;
 
@@ -163,7 +165,7 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" správně obsahuje "'. $needle .'".' );
 	                    } else {
 	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
-													$logErrors .= $logCurrentURL.'<br>'.$logTemp;
+													$logErrors .= $logCurrentURL.logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
 	                    }
 	                    break;
 
@@ -175,7 +177,7 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 	                        $logTemp .= logger('v "'. $a[1] . ' [' . $a[2] .']" je správně "'. $needle .'".' );
 	                    } else {
 	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
-													$logErrors .= $logCurrentURL.'<br>'.$logTemp;
+													$logErrors .= $logCurrentURL.logger('v "'. $a[1] . '[' . $a[2] .']" má být "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
 	                    }
 	                    break;
 
@@ -187,7 +189,7 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
 	                        $logTemp .= logger('v "'. $a[1] . ' [' . $a[2] .']" správně obsahuje "'. $needle .'".' );
 	                    } else {
 	                        $logTemp .= logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
-													$logErrors .= $logCurrentURL.'<br>'.$logTemp;
+													$logErrors .= $logCurrentURL.logger('v "'. $a[1] . '[' . $a[2] .']" má obsahovat "'. $needle .'", ale na stránce je "'. $haystack . '"', 'error');
 	                    }
 	                    break;
 
@@ -202,11 +204,10 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
      $logTemp .= logger('Testy nejsou definovány, takže neproběhly.', "notice");
 }
 
-$logTimes .= logger('<br><br>Konec testu: ' . date("H:i:s Y-m-d"), 'info' );
+$logTimes .= logger('Konec testu: ' . date("H:i:s Y-m-d"), 'info' );
 
 
-$log = $logTimes.'<br><br><h2>Chyby:</h2><br>'.$logErrors.'<br><br>'.$logTemp.'<br><br><br>';
-
+$log = $logTimes.'<br><h3>Chyby:</h3>'.$logErrors.'<br><br><h3>Všechny testy:</h3>'.$logTemp.'<br><br><br>';
 echo $log;
 
 // if there is even one error, we send email
