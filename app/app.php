@@ -204,7 +204,7 @@ if ( array_key_exists( 'testRules', $settings ) && $settings['testRules'] != '' 
      $logTemp .= logger('Testy nejsou definovány, takže neproběhly.', "notice");
 }
 
-$logTimes .= logger('Konec testu: ' . date("H:i:s Y-m-d"), 'info' );
+$logTimes .= logger('	Konec testu: ' . date("H:i:s Y-m-d"), 'info' );
 
 
 $log = $logTimes.'<br><h3>Chyby:</h3>'.$logErrors.'<br><br><h3>Všechny testy:</h3>'.$logTemp.'<br><br><br>';
