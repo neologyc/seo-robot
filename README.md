@@ -1,5 +1,4 @@
-# 
-
+# DOČASNĚ NEPOUŽÍVAT - TATO VERZE NENÍ AKTUÁLNÍ A JEJÍ AKTUALIZACE BUDE V PRŮBĚHU SRPNA 2019 -  ZATÍM SE JEN INSPIRUJTE, PROSÍM!
 
 # SEO robot pro průběžné každodenní testování webů a monitoring
 
