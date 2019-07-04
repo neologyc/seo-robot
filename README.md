@@ -1,3 +1,6 @@
+# 
+
+
 # SEO robot pro průběžné každodenní testování webů a monitoring
 
 Denně se na webech, kde pracujete na SEO může měnit fůra věcí, protože obvykle nemáte pod kontrolou všechny úpravy na webu - běžné releasy, hot fixy, atp.
