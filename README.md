@@ -1,4 +1,5 @@
-# DOČASNĚ NEPOUŽÍVAT - TATO VERZE NENÍ AKTUÁLNÍ A JEJÍ AKTUALIZACE BUDE V PRŮBĚHU SRPNA 2019 -  ZATÍM SE JEN INSPIRUJTE, PROSÍM!
+# PLEASE WAIT UNTIL 31TH OF OCTOBER TO USE THIS. I´m in the 2/3 of developing a new version, which will be fully in English, with english help / manual, with new features. This version is not the best, but probably will work for you. You should better wait for the newest version, please :)
+# DOČASNĚ NEPOUŽÍVAT - TATO VERZE NENÍ AKTUÁLNÍ A JEJÍ AKTUALIZACE BUDE NA KONCI ŘÍJNA 2019 -  ZATÍM SE JEN INSPIRUJTE, PROSÍM!
 
 # SEO robot pro průběžné každodenní testování webů a monitoring
 
